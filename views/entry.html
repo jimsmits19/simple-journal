@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: 1em;
+        }
+
+        #journalPage {
+            font-size: 1.2em;
+            padding:2vw;
+            width: 96vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            'use strict';
+
+            const journalEntry = {}
+
+            fetch('/api' + window.location.pathname)
+                .then(async function (data) {
+                    const entry = await data.json();
+                    journalEntry.id = entry.id;
+                    journalEntry.text = entry.text;
+                    journalEntry.version = entry.version;
+                    console.log(`Got: Id: ${entry.id}, Version: ${entry.version}`);
+                }).then(() => {
+                    journalPage.focus();
+                    journalPage.innerText = journalEntry.text;
+                    
+                    journalPage.addEventListener('keyup', event => {
+                        if (event.ctrlKey && event.key == 'Enter') {
+                            journalEntry.version = Date.now();
+                            journalEntry.text = journalPage.innerText;
+                            fetch('/api/entry', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(journalEntry)
+                                
+                            });
+                            console.log("Posted.");
+                        };
+                    });
+                })
+                .catch(function (error) {
+                    console.error(error)
+                });
+
+
+        });
+
+
+    </script>
+
+    <div id="journalPage" contenteditable="true"></div>
+
+
+</body>
+
+</html>
