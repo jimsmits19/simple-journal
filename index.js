@@ -13,6 +13,10 @@ const journalPageModel = new JournalPageModel(journalPageRepo)
 
 app.use(express.json());
 
+app.get('/design', async (req, res) => {
+    res.sendFile(__dirname + '/design.css');
+})
+
 app.get('/', (req, res) => {
     //Check for today's entry.
     //if found, redirect to entry page.
@@ -53,6 +57,10 @@ app.get('/api/entries', async (req, res) => {
     console.log(ids);
     console.log('sending entries');
     res.send(ids);
+})
+
+app.get('/open', async (req, res) => {
+    res.sendFile(__dirname + '/views/open.html');
 })
 
 function today() {
