@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
             })
 
             journalPage.addEventListener('keyup', async event => {
-                if (event.ctrlKey && event.key == 'Enter') {
-                    //saving this bit, in case anything else needs to go here. Fuck YAGNI
+                if (event.key == 'Enter') {
+                    save()
                 }
             });
 
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (match !== check) {
                     save();
                 };
-            }, 3000)
+            }, 6000)
             
             async function save() {
                 journalEntry.version = Date.now();
