@@ -17,6 +17,10 @@ app.get('/design', async (req, res) => {
     res.sendFile(__dirname + '/design.css');
 })
 
+app.get('/js/journal', async (req, res) => {
+    res.sendFile(__dirname + '/journal.js');
+})
+
 app.get('/', (req, res) => {
     //Check for today's entry.
     //if found, redirect to entry page.
